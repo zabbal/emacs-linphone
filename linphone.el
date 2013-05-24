@@ -1,9 +1,11 @@
-;;; -*- show-trailing-whitespace: t -*-
 ;;; linphone.el --- Emacs interface to Linphone
 
 ;; Copyright (C) 2010 Yoni Rabkin
 ;;
+;; URL: https://github.com/zabbal/emacs-linphone
 ;; Author: Yoni Rabkin <yonirabkin@member.fsf.org>
+;; Version: 0.1
+;; Keywords: comm
 ;;
 ;; This program is free software; you can redistribute it and/or
 ;; modify it under the terms of the GNU General Public License as
@@ -26,7 +28,7 @@
 
 ;;; Code:
 
-(defvar linphcsh-binary "/usr/local/bin/linphonecsh"
+(defvar linphcsh-binary (executable-find "linphonecsh")
   "Path of the linphonecsh binary.")
 
 (defvar linph-configuration "~/.linphonerc"
@@ -226,6 +228,7 @@ Returns whatever the linphone process returned as a string."
       (run-hooks 'linph-call-hook)
       (run-hooks 'linph-state-change-hook))))
 
+;;;###autoload
 (defun linph-call (contact)
   "Interactively place a call to CONTACT."
   (interactive
@@ -239,6 +242,7 @@ Returns whatever the linphone process returned as a string."
 		       e))))
   (linph-call-contact (gethash contact linph-contacts-hashtable)))
 
+;;;###autoload
 (defun linph-answer ()
   "Answer the call."
   (interactive)
@@ -246,6 +250,7 @@ Returns whatever the linphone process returned as a string."
   (run-hooks 'linph-answer-hook)
   (run-hooks 'linph-state-change-hook))
 
+;;;###autoload
 (defun linph-terminate ()
   "Terminate the call."
   (interactive)
@@ -253,16 +258,22 @@ Returns whatever the linphone process returned as a string."
   (run-hooks 'linph-disconnect-hook)
   (run-hooks 'linph-state-change-hook))
 
+;;;###autoload
 (defun linph-quit ()
-  "Start linphone."
+  "Stop linphone."
   (interactive)
   (linph-command-exit))
 
+;;;###autoload
 (defun linph-start (&optional no-error)
-  "Quit linphone."
+  "Start linphone."
   (interactive)
   (linph-command-init no-error))
 
 (provide 'linphone)
+
+;; Local Variables:
+;; show-trailing-whitespace: t
+;; End:
 
 ;;; linphone.el ends here.
